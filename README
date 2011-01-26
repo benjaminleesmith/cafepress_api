@@ -14,5 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with CafePressAPI.  If not, see <http://www.gnu.org/licenses/>.
 
-require 'bundler'
-Bundler::GemHelper.install_tasks
+== INTRODUCTION ==
+CafePressAPI is a simple Ruby wrapper for some of the CafePress API
+http://developer.cafepress.com/docs
+
+== TODO ==
+* Lots.
