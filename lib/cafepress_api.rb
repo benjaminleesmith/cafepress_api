@@ -1,0 +1,3 @@
+module CafepressApi
+  # Your code goes here...
+end
