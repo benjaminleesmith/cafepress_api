@@ -6,11 +6,11 @@ Gem::Specification.new do |s|
   s.name        = "cafepress_api"
   s.version     = CafepressApi::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["TODO: Write your name"]
-  s.email       = ["TODO: Write your email address"]
-  s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.authors     = ["Benjamin Lee Smith"]
+  s.email       = ["benjamin.lee.smith@gmail.com"]
+  s.homepage    = "https://github.com/benjaminleesmith/cafepress_api"
+  s.summary     = "A simple Ruby wrapper for the CafePress API."
+  s.description = %q{This is a simple Ruby wrapper for the CafePress API. It is a work in progress and does not cover everything in the API.}
 
   s.rubyforge_project = "cafepress_api"
 
