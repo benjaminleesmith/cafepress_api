@@ -1,3 +1,3 @@
-module CafepressApi
+module CafePressAPI
   VERSION = "0.0.1"
 end

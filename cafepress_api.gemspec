@@ -4,7 +4,7 @@ require "cafepress_api/version"
 
 Gem::Specification.new do |s|
   s.name        = "cafepress_api"
-  s.version     = CafepressApi::VERSION
+  s.version     = CafePressAPI::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Benjamin Lee Smith"]
   s.email       = ["benjamin.lee.smith@gmail.com"]
