@@ -18,5 +18,24 @@
 CafePressAPI is a simple Ruby wrapper for some of the CafePress API
 http://developer.cafepress.com/docs
 
+== HOW TO ==
+The library is fairly simple. Taking a look at the class methods defined in
+cafepress_api.rb will give you a better idea of how things work. Configuration
+stuff can either be passed as argument(s) when calling the methods, or placed
+in environment variables.
+
+$ irb
+> require 'rubygems'
+=> true
+> require 'cafepress_api'
+=> true
+> CafePressAPI.get_store_products('carabinerpirate','YOUR-CAFEPRESS-API-KEY')
+=> [{:cafepress_design_id=>"21823412", :cafepress_back_design_id=>nil, :default_caption=>"Women's Long Sleeve Dark T-Shirt", :cafepress_product_id=>"164539429", :name=>"Pirates of the Carabiner Women's Long Sleeve Shirt", :url=>"http://www.cafepress.com/buy/x/-/pv_design_prod/pg_1/p_2627625.164539429/pNo_164539429"}, ...]
+
+I wrote this gem for a Rails app which creates a portal of multiple CafePress
+basic stores (https://github.com/benjaminleesmith/cafepress_wrapper). This gem
+was built with very specific use cases in mind. If you find it lacking, please
+improve on it and contribute (https://github.com/benjaminleesmith/cafepress_api)
+
 == TODO ==
 * Lots.
