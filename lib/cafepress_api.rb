@@ -19,6 +19,10 @@ require 'open-uri'
 module CafePressAPI
   RESULTS_PER_PAGE = 100
 
+  def self.store_url(cafepress_store_id)
+    "http://cafepress.com/#{cafepress_store_id}"
+  end
+
   #Generates a url to add one product to a CafePress cart.
   def self.add_to_cart_url(product_id, size, color, quantity, keep_shopping_url)
     "http://www.cafepress.com/cp/addtocart.aspx?color_#{product_id}=#{color}&size_#{product_id}=#{size}&qty_#{product_id}=#{quantity}&keepshopping=#{keep_shopping_url}&storeid=search"
