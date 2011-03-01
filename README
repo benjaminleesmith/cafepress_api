@@ -31,6 +31,8 @@ $ irb
 => true
 > CafePressAPI.get_store_products('carabinerpirate','YOUR-CAFEPRESS-API-KEY')
 => [{:cafepress_design_id=>"21823412", :cafepress_back_design_id=>nil, :default_caption=>"Women's Long Sleeve Dark T-Shirt", :cafepress_product_id=>"164539429", :name=>"Pirates of the Carabiner Women's Long Sleeve Shirt", :url=>"http://www.cafepress.com/buy/x/-/pv_design_prod/pg_1/p_2627625.164539429/pNo_164539429"}, ...]
+> CafePressAPI.add_to_cart_url('164539432', '6', '29', 2, 'http://rockclimbingshirts.com')
+=> "http://www.cafepress.com/cp/addtocart.aspx?color_164539432=29&size_164539432=6&qty_164539432=2&keepshopping=http://rockclimbingshirts.com&storeid=search"
 
 I wrote this gem for a Rails app which creates a portal of multiple CafePress
 basic stores (https://github.com/benjaminleesmith/cafepress_wrapper). This gem

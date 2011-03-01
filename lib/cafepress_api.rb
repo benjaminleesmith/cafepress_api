@@ -19,6 +19,11 @@ require 'open-uri'
 module CafePressAPI
   RESULTS_PER_PAGE = 100
 
+  #Generates a url to add one product to a CafePress cart.
+  def self.add_to_cart_url(product_id, size, color, quantity, keep_shopping_url)
+    "http://www.cafepress.com/cp/addtocart.aspx?color_#{product_id}=#{color}&size_#{product_id}=#{size}&qty_#{product_id}=#{quantity}&keepshopping=#{keep_shopping_url}&storeid=search"
+  end
+
   def self.user_token(app_key = ENV['cp_app_key'], email = ENV['cp_email'], password = ENV['cp_password'])
     content = ''
     open("http://open-api.cafepress.com/authentication.getUserToken.cp?appKey=#{app_key}&email=#{email}&password=#{password}") do |s| content = s.read end
