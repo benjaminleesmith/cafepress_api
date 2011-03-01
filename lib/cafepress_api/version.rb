@@ -15,5 +15,5 @@
 # along with CafePressAPI.  If not, see <http://www.gnu.org/licenses/>.
 
 module CafePressAPI
-  VERSION = "0.0.2"
+  VERSION = "0.0.3"
 end
