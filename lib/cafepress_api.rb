@@ -17,9 +17,11 @@
 require 'rexml/document'
 require 'open-uri'
 require 'product_genders'
+require 'product_colors'
 module CafePressAPI
   RESULTS_PER_PAGE = 100
   include ProductGenders
+  include ProductColors
 
   def self.store_url(cafepress_store_id)
     "http://cafepress.com/#{cafepress_store_id}"
@@ -63,6 +65,13 @@ Or better yet, add the mapping yourself in product_genders.rb and submit it back
         end
       end
 
+      # Create a product thumbnail hash where the key is the color of the
+      # thumbnail and the value is the url to the image
+      thumbnail_urls_100x100 = {}
+      product.get_elements("productImage[@imageSize='100']").each do |product_image|
+        thumbnail_urls_100x100[product_image.attributes['colorId']] = product_image.attributes['productUrl']
+      end
+
       products << {
         :name => product.attributes['name'],
         :default_caption => product.attributes['defaultCaption'],
@@ -70,7 +79,8 @@ Or better yet, add the mapping yourself in product_genders.rb and submit it back
         :url => product.attributes['marketplaceUri'],
         :cafepress_design_id => product.get_elements("mediaConfiguration[@perspectives='Front']").first.attributes['designId'],
         :cafepress_back_design_id => cafepress_back_design_id,
-        :gender => gender # See comment above
+        :gender => gender, # See comment above
+        :thumbnail_urls_100x100 => thumbnail_urls_100x100
       }
     end
     products
