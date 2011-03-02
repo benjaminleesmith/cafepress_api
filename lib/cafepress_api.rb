@@ -67,9 +67,15 @@ Or better yet, add the mapping yourself in product_genders.rb and submit it back
 
       # Create a product thumbnail hash where the key is the color of the
       # thumbnail and the value is the url to the image
-      thumbnail_urls_100x100 = {}
+      front_thumbnail_urls_100x100 = back_thumbnail_urls_100x100 = {}
       product.get_elements("productImage[@imageSize='100']").each do |product_image|
-        thumbnail_urls_100x100[product_image.attributes['colorId']] = product_image.attributes['productUrl']
+        if product_image.attributes['productUrl'].includes('_Front_')
+          front_thumbnail_urls_100x100[product_image.attributes['colorId']] = product_image.attributes['productUrl']
+        elsif product_image.attributes['productUrl'].includes('_Back_')
+          back_thumbnail_urls_100x100[product_image.attributes['colorId']] = product_image.attributes['productUrl']
+        else
+          front_thumbnail_urls_100x100[product_image.attributes['colorId']] = product_image.attributes['productUrl']
+        end
       end
 
       products << {
@@ -80,7 +86,8 @@ Or better yet, add the mapping yourself in product_genders.rb and submit it back
         :cafepress_design_id => product.get_elements("mediaConfiguration[@perspectives='Front']").first.attributes['designId'],
         :cafepress_back_design_id => cafepress_back_design_id,
         :gender => gender, # See comment above
-        :thumbnail_urls_100x100 => thumbnail_urls_100x100
+        :front_thumbnail_urls_100x100 => front_thumbnail_urls_100x100,
+        :back_thumbnail_urls_100x100 => back_thumbnail_urls_100x100
       }
     end
     products
