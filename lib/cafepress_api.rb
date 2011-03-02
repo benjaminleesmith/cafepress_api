@@ -71,9 +71,9 @@ Or better yet, add the mapping yourself in product_genders.rb and submit it back
       # thumbnail and the value is the url to the image
       thumbnail_urls_100x100 = []
       product.get_elements("productImage[@imageSize='100']").each do |product_image|
-        if product_image.attributes['productUrl'].includes?('_Front_')
+        if product_image.attributes['productUrl'].include?('_Front_')
           thumbnail_urls_100x100 << {:color_id => product_image.attributes['colorId'], :url => product_image.attributes['productUrl'], :view => FRONT_PRODUCT_VIEW}
-        elsif product_image.attributes['productUrl'].includes?('_Back_')
+        elsif product_image.attributes['productUrl'].include?('_Back_')
           thumbnail_urls_100x100 << {:color_id => product_image.attributes['colorId'], :url => product_image.attributes['productUrl'], :view => BACK_PRODUCT_VIEW}
         else
           thumbnail_urls_100x100 << {:color_id => product_image.attributes['colorId'], :url => product_image.attributes['productUrl'], :view => FRONT_PRODUCT_VIEW}
