@@ -20,6 +20,8 @@ require 'product_genders'
 require 'product_colors'
 module CafePressAPI
   RESULTS_PER_PAGE = 100
+  FRONT_PRODUCT_VIEW = 'f'
+  BACK_PRODUCT_VIEW = 'b'
   include ProductGenders
   include ProductColors
 
@@ -67,14 +69,14 @@ Or better yet, add the mapping yourself in product_genders.rb and submit it back
 
       # Create a product thumbnail hash where the key is the color of the
       # thumbnail and the value is the url to the image
-      front_thumbnail_urls_100x100 = back_thumbnail_urls_100x100 = {}
+      thumbnail_urls_100x100 = []
       product.get_elements("productImage[@imageSize='100']").each do |product_image|
         if product_image.attributes['productUrl'].includes('_Front_')
-          front_thumbnail_urls_100x100[product_image.attributes['colorId']] = product_image.attributes['productUrl']
+          thumbnail_urls_100x100 << {:color_id => product_image.attributes['colorId'], :url => product_image.attributes['productUrl'], :view => FRONT_PRODUCT_VIEW}
         elsif product_image.attributes['productUrl'].includes('_Back_')
-          back_thumbnail_urls_100x100[product_image.attributes['colorId']] = product_image.attributes['productUrl']
+          thumbnail_urls_100x100 << {:color_id => product_image.attributes['colorId'], :url => product_image.attributes['productUrl'], :view => BACK_PRODUCT_VIEW}
         else
-          front_thumbnail_urls_100x100[product_image.attributes['colorId']] = product_image.attributes['productUrl']
+          thumbnail_urls_100x100 << {:color_id => product_image.attributes['colorId'], :url => product_image.attributes['productUrl'], :view => FRONT_PRODUCT_VIEW}
         end
       end
 
@@ -86,8 +88,7 @@ Or better yet, add the mapping yourself in product_genders.rb and submit it back
         :cafepress_design_id => product.get_elements("mediaConfiguration[@perspectives='Front']").first.attributes['designId'],
         :cafepress_back_design_id => cafepress_back_design_id,
         :gender => gender, # See comment above
-        :front_thumbnail_urls_100x100 => front_thumbnail_urls_100x100,
-        :back_thumbnail_urls_100x100 => back_thumbnail_urls_100x100
+        :thumbnail_urls_100x100 => thumbnail_urls_100x100,
       }
     end
     products
