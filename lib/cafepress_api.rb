@@ -69,9 +69,9 @@ Or better yet, add the mapping yourself in product_genders.rb and submit it back
       
       image_urls = []
       product.get_elements("productImage").each do |product_image|
-        if product_image.attributes['productUrl'].include?('_Front_')
+        if product_image.attributes['productUrl'].include?('_Front')
           image_urls << {:color_id => product_image.attributes['colorId'], :url => product_image.attributes['productUrl'], :view => FRONT_PRODUCT_VIEW, :size => product_image.attributes['imageSize']}
-        elsif product_image.attributes['productUrl'].include?('_Back_')
+        elsif product_image.attributes['productUrl'].include?('_Back')
           image_urls << {:color_id => product_image.attributes['colorId'], :url => product_image.attributes['productUrl'], :view => BACK_PRODUCT_VIEW, :size => product_image.attributes['imageSize']}
         else
           warn("\nWARNING: the image url #{product_image.attributes['productUrl']} does not appear to be a front or back image, assuming it is a front image.")
