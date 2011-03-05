@@ -66,17 +66,16 @@ Or better yet, add the mapping yourself in product_genders.rb and submit it back
 %})
         end
       end
-
-      # Create a product thumbnail hash where the key is the color of the
-      # thumbnail and the value is the url to the image
-      thumbnail_urls_100x100 = []
-      product.get_elements("productImage[@imageSize='100']").each do |product_image|
+      
+      image_urls = []
+      product.get_elements("productImage").each do |product_image|
         if product_image.attributes['productUrl'].include?('_Front_')
-          thumbnail_urls_100x100 << {:color_id => product_image.attributes['colorId'], :url => product_image.attributes['productUrl'], :view => FRONT_PRODUCT_VIEW}
+          image_urls << {:color_id => product_image.attributes['colorId'], :url => product_image.attributes['productUrl'], :view => FRONT_PRODUCT_VIEW, :size => product_image.attributes['imageSize']}
         elsif product_image.attributes['productUrl'].include?('_Back_')
-          thumbnail_urls_100x100 << {:color_id => product_image.attributes['colorId'], :url => product_image.attributes['productUrl'], :view => BACK_PRODUCT_VIEW}
+          image_urls << {:color_id => product_image.attributes['colorId'], :url => product_image.attributes['productUrl'], :view => BACK_PRODUCT_VIEW, :size => product_image.attributes['imageSize']}
         else
-          thumbnail_urls_100x100 << {:color_id => product_image.attributes['colorId'], :url => product_image.attributes['productUrl'], :view => FRONT_PRODUCT_VIEW}
+          warn("\nWARNING: the image url #{product_image.attributes['productUrl']} does not appear to be a front or back image, assuming it is a front image.")
+          image_urls << {:color_id => product_image.attributes['colorId'], :url => product_image.attributes['productUrl'], :view => FRONT_PRODUCT_VIEW, :size => product_image.attributes['imageSize']}
         end
       end
 
@@ -88,7 +87,7 @@ Or better yet, add the mapping yourself in product_genders.rb and submit it back
         :cafepress_design_id => product.get_elements("mediaConfiguration[@perspectives='Front']").first.attributes['designId'],
         :cafepress_back_design_id => cafepress_back_design_id,
         :gender => gender, # See comment above
-        :thumbnail_urls_100x100 => thumbnail_urls_100x100,
+        :image_urls => image_urls
       }
     end
     products
