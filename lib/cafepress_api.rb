@@ -66,16 +66,24 @@ Or better yet, add the mapping yourself in product_genders.rb and submit it back
 %})
         end
       end
-      
+
+      # The CafePress API (at the time of this code) doesn't correctly return
+      # product images only for the colors which are available for the product.
+      # as such, I am filtering out "invalid" colors from the productUrl(s)
+      valid_color_ids = product.get_elements('color').map{|color| color.attributes['id']}
+
       image_urls = []
       product.get_elements("productImage").each do |product_image|
-        if product_image.attributes['productUrl'].include?('_Front')
-          image_urls << {:color_id => product_image.attributes['colorId'], :url => product_image.attributes['productUrl'], :view => FRONT_PRODUCT_VIEW, :size => product_image.attributes['imageSize']}
-        elsif product_image.attributes['productUrl'].include?('_Back')
-          image_urls << {:color_id => product_image.attributes['colorId'], :url => product_image.attributes['productUrl'], :view => BACK_PRODUCT_VIEW, :size => product_image.attributes['imageSize']}
-        else
-          warn("\nWARNING: the image url #{product_image.attributes['productUrl']} does not appear to be a front or back image, assuming it is a front image.")
-          image_urls << {:color_id => product_image.attributes['colorId'], :url => product_image.attributes['productUrl'], :view => FRONT_PRODUCT_VIEW, :size => product_image.attributes['imageSize']}
+        # only parse if it is a product image for an available color
+        if valid_color_ids.include?(product_image.attributes['colorId'])
+          if product_image.attributes['productUrl'].include?('_Front')
+            image_urls << {:color_id => product_image.attributes['colorId'], :url => product_image.attributes['productUrl'], :view => FRONT_PRODUCT_VIEW, :size => product_image.attributes['imageSize']}
+          elsif product_image.attributes['productUrl'].include?('_Back')
+            image_urls << {:color_id => product_image.attributes['colorId'], :url => product_image.attributes['productUrl'], :view => BACK_PRODUCT_VIEW, :size => product_image.attributes['imageSize']}
+          else
+            warn("\nWARNING: the image url #{product_image.attributes['productUrl']} does not appear to be a front or back image, assuming it is a front image.")
+            image_urls << {:color_id => product_image.attributes['colorId'], :url => product_image.attributes['productUrl'], :view => FRONT_PRODUCT_VIEW, :size => product_image.attributes['imageSize']}
+          end
         end
       end
 
