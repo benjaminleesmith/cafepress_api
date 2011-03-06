@@ -63,14 +63,27 @@ module CafePressAPI
 \nWARNING: the product with defaultCaption '#{product.attributes['defaultCaption']}' and merchandiseId #{product.attributes['merchandiseId']} does not exist in the gender mapping!\n
 Please send benjamin.lee.smith@gmail.com an email and copy/paste this warning message.\n
 Or better yet, add the mapping yourself in product_genders.rb and submit it back https://github.com/benjaminleesmith/cafepress_api\n
-%})
+})
         end
       end
 
       # The CafePress API (at the time of this code) doesn't correctly return
       # product images only for the colors which are available for the product.
       # as such, I am filtering out "invalid" colors from the productUrl(s)
-      valid_color_ids = product.get_elements('color').map{|color| color.attributes['id']}
+      valid_color_ids = []
+      product.get_elements('color').each do |color|
+        color_id = color.attributes['id']
+        valid_color_ids << color.attributes['id']
+
+        # Check to see if this color should be added to ProductColors
+        if COLORS[color_id].nil?
+          warn(%{
+\nWARNING: the color with id "#{color_id}", name "#{color.attributes['name']}", merchandiseId "#{product.attributes['merchandiseId']}", and colorSwatchUrl "#{color.attributes['colorSwatchUrl']}" does not exist in the color mapping!\n
+Please send benjamin.lee.smith@gmail.com an email and copy/paste this warning message.\n
+Or better yet, add the mapping yourself in product_colors.rb and submit it back https://github.com/benjaminleesmith/cafepress_api\n
+          })
+        end
+      end
 
       image_urls = []
       product.get_elements("productImage").each do |product_image|
