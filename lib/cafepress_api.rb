@@ -114,6 +114,19 @@ Or better yet, add the mapping yourself in product_colors.rb and submit it back 
         end
       end
 
+      sizes = []
+      default_size_id = nil
+      product.get_elements("size").each do |size|
+        sizes << {
+          :cafepress_size_id => size.attributes['id'],
+          :full_name => size.attributes['fullName'],
+          :display_sell_price => size.attributes['displaySellPrice']
+        }
+        if size.attributes['default'] == 'true'
+          default_size_id = size.attributes['id']
+        end
+      end
+
       products << {
         :name => product.attributes['name'],
         :default_caption => product.attributes['defaultCaption'],
@@ -124,7 +137,9 @@ Or better yet, add the mapping yourself in product_colors.rb and submit it back 
         :gender => gender, # See comment above
         :cafepress_merchandise_id => product.attributes['merchandiseId'],
         :default_color_id => default_color_id,
-        :image_urls => image_urls
+        :image_urls => image_urls,
+        :default_cafepress_size_id => default_size_id,
+        :sizes => sizes
       }
     end
     products
