@@ -100,6 +100,14 @@ Or better yet, add the mapping yourself in product_colors.rb and submit it back 
         end
       end
 
+      # for whatever reason, some products don't have a default color
+      begin
+        default_color_id = product.get_elements("color[@default='true']").first.attributes['id']
+      rescue
+        default_color_id = nil
+      end
+
+
       products << {
         :name => product.attributes['name'],
         :default_caption => product.attributes['defaultCaption'],
@@ -108,6 +116,8 @@ Or better yet, add the mapping yourself in product_colors.rb and submit it back 
         :cafepress_design_id => product.get_elements("mediaConfiguration[@perspectives='Front']").first.attributes['designId'],
         :cafepress_back_design_id => cafepress_back_design_id,
         :gender => gender, # See comment above
+        :cafepress_merchandise_id => product.attributes['merchandiseId'],
+        :default_color_id => default_color_id,
         :image_urls => image_urls
       }
     end
