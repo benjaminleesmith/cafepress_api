@@ -106,7 +106,12 @@ Or better yet, add the mapping yourself in product_colors.rb and submit it back 
       if valid_color_ids.length == 0
         default_color_id = nil
       else
-        default_color_id = product.get_elements("color[@default='true']").first.attributes['id']
+        begin
+          default_color_id = product.get_elements("color[@default='true']").first.attributes['id']
+        rescue
+          # Some products HAVE colors, but don't have any set to default=true
+          default_color_id = nil
+        end
       end
 
       products << {
