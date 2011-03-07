@@ -69,7 +69,9 @@ Or better yet, add the mapping yourself in product_genders.rb and submit it back
 
       # The CafePress API (at the time of this code) doesn't correctly return
       # product images only for the colors which are available for the product.
-      # as such, I am filtering out "invalid" colors from the productUrl(s)
+      # as such, I am filtering out "invalid" colors from the productUrl(s).
+      # Except in the case where the API returns NO colors... then I am accepting
+      # all images with a color id of "0", whatever that means...
       valid_color_ids = []
       product.get_elements('color').each do |color|
         color_id = color.attributes['id']
@@ -88,7 +90,7 @@ Or better yet, add the mapping yourself in product_colors.rb and submit it back 
       image_urls = []
       product.get_elements("productImage").each do |product_image|
         # only parse if it is a product image for an available color
-        if valid_color_ids.include?(product_image.attributes['colorId'])
+        if valid_color_ids.include?(product_image.attributes['colorId']) || valid_color_ids.length == 0
           if product_image.attributes['productUrl'].include?('_Front')
             image_urls << {:color_id => product_image.attributes['colorId'], :url => product_image.attributes['productUrl'], :view => FRONT_PRODUCT_VIEW, :size => product_image.attributes['imageSize']}
           elsif product_image.attributes['productUrl'].include?('_Back')
@@ -100,13 +102,12 @@ Or better yet, add the mapping yourself in product_colors.rb and submit it back 
         end
       end
 
-      # for whatever reason, some products don't have a default color
-      begin
-        default_color_id = product.get_elements("color[@default='true']").first.attributes['id']
-      rescue
+      # For some reason, there are some products without colors...
+      if valid_color_ids.length == 0
         default_color_id = nil
+      else
+        default_color_id = product.get_elements("color[@default='true']").first.attributes['id']
       end
-
 
       products << {
         :name => product.attributes['name'],
