@@ -139,7 +139,8 @@ Or better yet, add the mapping yourself in product_colors.rb and submit it back 
         :default_color_id => default_color_id,
         :image_urls => image_urls,
         :default_cafepress_size_id => default_size_id,
-        :sizes => sizes
+        :sizes => sizes,
+        :price => product.attributes['sellPrice']
       }
     end
     products
