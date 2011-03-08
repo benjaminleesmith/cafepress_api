@@ -157,6 +157,6 @@ Or better yet, add the mapping yourself in product_colors.rb and submit it back 
     open("http://open-api.cafepress.com/store.findByStoreId.cp?v=3&appKey=#{app_key}&storeId=#{cafepress_store_id}") do |s| content = s.read end
     doc = REXML::Document.new(content)
 
-    {:store_id => cafepress_store_id, :description => doc.root.attributes['description']}
+    {:store_id => cafepress_store_id, :description => doc.root.attributes['description'], :title => doc.root.attributes['title']}
   end
 end
