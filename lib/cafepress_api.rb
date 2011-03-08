@@ -131,7 +131,7 @@ Or better yet, add the mapping yourself in product_colors.rb and submit it back 
         :name => product.attributes['name'],
         :default_caption => product.attributes['defaultCaption'],
         :cafepress_product_id => product.attributes['id'],
-        :url => product.attributes['marketplaceUri'],
+        :url => product.attributes['storeUri'],
         :cafepress_design_id => product.get_elements("mediaConfiguration[@perspectives='Front']").first.attributes['designId'],
         :cafepress_back_design_id => cafepress_back_design_id,
         :gender => gender, # See comment above
