@@ -22,6 +22,7 @@ module CafePressAPI
   RESULTS_PER_PAGE = 100
   FRONT_PRODUCT_VIEW = 'f'
   BACK_PRODUCT_VIEW = 'b'
+  ADD_TO_CART_BASE_URL = 'http://www.cafepress.com/cp/addtocart.aspx'
   include ProductGenders
   include ProductColors
 
@@ -32,7 +33,7 @@ module CafePressAPI
   # Generates a url to add one product to a CafePress cart.
   # This isn't part of the CafePress API, use at your own risk!
   def self.add_to_cart_url(product_id, size, color, quantity, keep_shopping_url)
-    "http://www.cafepress.com/cp/addtocart.aspx?color_#{product_id}=#{color}&size_#{product_id}=#{size}&qty_#{product_id}=#{quantity}&keepshopping=#{keep_shopping_url}&storeid=search"
+    "#{ADD_TO_CART_BASE_URL}?color_#{product_id}=#{color}&size_#{product_id}=#{size}&qty_#{product_id}=#{quantity}&keepshopping=#{keep_shopping_url}&storeid=search"
   end
 
   def self.user_token(app_key = ENV['cp_app_key'], email = ENV['cp_email'], password = ENV['cp_password'])
