@@ -23,6 +23,7 @@ module CafePressAPI
   FRONT_PRODUCT_VIEW = 'f'
   BACK_PRODUCT_VIEW = 'b'
   ADD_TO_CART_BASE_URL = 'http://www.cafepress.com/cp/addtocart.aspx'
+  VIEW_CART_BASE_URL = 'http://www.cafepress.com/cp/viewcart.aspx'
   include ProductGenders
   include ProductColors
 
